@@ -1,0 +1,13 @@
+class ActiveRecord::Base
+  class << self
+    def relativity_connection( config )
+      config[:port] ||= 1583
+      config[:url] ||= "jdbc:relativity://#{config[:host]}:#{config[:port]}/#{ config[:database]}"
+      config[:driver] ||= 'relativity.jdbc.Driver'
+      config[:adapter_spec] ||= ::ArJdbc::Relativity
+      config[:adapter_class] = ActiveRecord::ConnectionAdapters::RelativityAdapter unless config.key?(:adapter_class)
+
+      jdbc_connection(config)
+    end
+  end
+end
