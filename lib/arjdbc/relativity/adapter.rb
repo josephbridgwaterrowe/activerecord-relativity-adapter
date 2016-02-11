@@ -5,7 +5,6 @@ end
 
 module ActiveRecord::ConnectionAdapters
   class RelativityAdapter < JdbcAdapter
-
     def self.arel2_visitors(config)
       require 'arel/visitors/compat'
       visitors = ::Arel::Visitors::ToSql

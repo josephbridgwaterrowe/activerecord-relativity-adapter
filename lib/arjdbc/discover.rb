@@ -4,7 +4,6 @@
 
 module ::ArJdbc
   extension :Relativity do |name|
-    puts 'relativity extension'
     if name =~ /relativity/i
       require 'arjdbc/relativity'
       true

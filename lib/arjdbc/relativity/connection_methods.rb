@@ -6,6 +6,11 @@ class ActiveRecord::Base
       config[:driver] ||= 'relativity.jdbc.Driver'
       config[:adapter_spec] ||= ::ArJdbc::Relativity
       config[:adapter_class] = ActiveRecord::ConnectionAdapters::RelativityAdapter unless config.key?(:adapter_class)
+      if config.key?(:adapter_class)
+        config[:adapter_class] = config[:adapter_class].constantize
+      else
+        config[:adapter_class] = ActiveRecord::ConnectionAdapters::RelativityAdapter
+      end
 
       jdbc_connection(config)
     end
