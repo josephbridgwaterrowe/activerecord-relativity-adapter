@@ -5,12 +5,13 @@ class ActiveRecord::Base
       config[:url] ||= "jdbc:relativity://#{config[:host]}:#{config[:port]}/#{ config[:database]}"
       config[:driver] ||= 'relativity.jdbc.Driver'
       config[:adapter_spec] ||= ::ArJdbc::Relativity
-      config[:adapter_class] = ActiveRecord::ConnectionAdapters::RelativityAdapter unless config.key?(:adapter_class)
-      if config.key?(:adapter_class)
-        config[:adapter_class] = config[:adapter_class].constantize
-      else
-        config[:adapter_class] = ActiveRecord::ConnectionAdapters::RelativityAdapter
-      end
+      config[:adapter_class] = if config.key?(:adapter_class) && config[:adapter_class].class == String
+                                 config[:adapter_class].constantize
+                               elsif config.key?(:adapter_class)
+                                 config[:adapter_class]
+                               else
+                                 ActiveRecord::ConnectionAdapters::RelativityAdapter
+                              end
 
       jdbc_connection(config)
     end
